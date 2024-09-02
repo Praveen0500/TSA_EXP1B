@@ -23,46 +23,49 @@ data = pd.read_csv('/content/OnionTimeSeries - Sheet1.csv')
 
 data['Date'] = pd.to_datetime(data['Date']) 
 data.set_index('Date', inplace=True) 
+
 data.fillna(method='ffill', inplace=True)
 
-Max_data = data['Max']
+first_100_data = data.iloc[:100]
+
+Max_data_100 = first_100_data['Max']
 
 plt.figure(figsize=(14, 8))
-plt.plot(Max_data, label='Max')
+plt.plot(Max_data_100, label='Max (First 100)')
 plt.xlabel('Date')
 plt.ylabel('Price')
-plt.title('Max price of Onion')
+plt.title('Max Price of Onion (First 100 Data Points)')
 plt.legend()
 plt.show()
 
-Max_diff = Max_data.diff().dropna()
+Max_diff_100 = Max_data_100.diff().dropna()
 
 plt.figure(figsize=(14, 8))
-plt.plot(Max_diff, label='Max (Diff)')
+plt.plot(Max_diff_100, label='Max (Diff - First 100)')
 plt.xlabel('Date')
-plt.ylabel('Diffrenced Price')
-plt.title('Differenced Max Data')
+plt.ylabel('Differenced Price')
+plt.title('Differenced Max Data (First 100 Data Points)')
 plt.legend()
 plt.show()
 
-Max_log = np.log(Max_data + 1)
+Max_log_100 = np.log(Max_data_100 + 1)
 
 plt.figure(figsize=(14, 8))
-plt.plot(Max_log, label='Max (Log)')
+plt.plot(Max_log_100, label='Max (Log - First 100)')
 plt.xlabel('Date')
 plt.ylabel('Log Transformed Price')
-plt.title('Log-Transformed Max Data')
+plt.title('Log-Transformed Max Data (First 100 Data Points)')
 plt.legend()
 plt.show()
 
-Max_seasonal_adjustment = Max_log - Max_log.rolling(window=7).mean()
-Max_seasonal_adjustment.dropna(inplace=True)
+Max_seasonal_adjustment_100 = Max_log_100 - Max_log_100.rolling(window=7).mean()
+Max_seasonal_adjustment_100.dropna(inplace=True)
 
 plt.figure(figsize=(14, 8))
-plt.plot(Max_seasonal_adjustment, label='Max (Seasonally Adjusted)')
+plt.plot(Max_seasonal_adjustment_100, label='Max (Seasonally Adjusted - First 100)')
 plt.xlabel('Date')
 plt.ylabel('Seasonally Adjusted Price')
-plt.title('Seasonally Adjusted Log-Transformed Max Data')
+plt.title('Seasonally Adjusted Log-Transformed Max Data (First 100 Data Points)')
 plt.legend()
 plt.show()
 
@@ -71,20 +74,22 @@ plt.show()
 ### OUTPUT:
 
 #### ORGINAL DATASET:
-![image](https://github.com/user-attachments/assets/38ab32d6-e475-4b8d-aa6b-5a44d2dc488f)
+![image](https://github.com/user-attachments/assets/42592bed-fbf3-4cd0-b1cf-b182e4bf88ef)
+
 
 
 #### REGULAR DIFFERENCING:
-![image](https://github.com/user-attachments/assets/181fd307-0a27-43bd-98ec-56e10e7e9803)
+![image](https://github.com/user-attachments/assets/d4f7ac0b-f7b0-4526-b203-495efc6bcc10)
+
 
 
 #### SEASONAL ADJUSTMENT:
-![image](https://github.com/user-attachments/assets/9b514e18-5074-45ce-bbc9-648837d29050)
+![image](https://github.com/user-attachments/assets/a3481461-1d47-425b-9de5-c84b95509290)
 
 
 #### LOG TRANSFORMATION:
 
-![image](https://github.com/user-attachments/assets/6112e019-bc14-4558-8109-b7e259411deb)
+![image](https://github.com/user-attachments/assets/3fc0146c-785c-4259-9424-4b7cdc16c0a2)
 
 
 ### RESULT:
